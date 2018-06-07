@@ -18,7 +18,7 @@
 
 #include "Patch.h"
 
-#define double float
+#define double float			// float needed with Owl processor
 
 #ifndef Test_WaveTableOsc_h
 #define Test_WaveTableOsc_h

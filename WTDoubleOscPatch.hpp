@@ -14,25 +14,26 @@ class WTThreeOscPatch : public Patch {
 private:
   WaveTableOsc *osc1;
   WaveTableOsc *osc2;
-  WaveTableOsc *osc3;
   WaveForm *wf;
   FloatParameter freqA;
-  FloatParameter multB;
+  FloatParameter freqC;
   FloatParameter multC;
   
+  //IntParameter multC;
 public:
   WTThreeOscPatch() {																		
 	  osc1 = new WaveTableOsc();																
-	  osc2 = new WaveTableOsc();																
-	  osc3 = new WaveTableOsc();
-	  wf = new WaveForm();			
+	  osc2 = new WaveTableOsc();
+	  wf = new WaveForm();																
+	  //osc3 = new WaveTableOsc();
 	  
     //debugMessage("basefreq1", baseFrequency);
 	  wf->setSawtoothOsc(osc1, baseFrequency);
 	  wf->setSawtoothOsc(osc2, baseFrequency);
-	  wf->setSawtoothOsc(osc3, baseFrequency);
 	  
     //debugMessage("basefreq2", baseFrequency);
+	  //setSawtoothOsc(osc2, baseFrequency);
+	  //setSawtoothOsc(osc3, baseFrequency);
 	  freqA = getFloatParameter("Frequency", baseFrequency, 18000, 523.25, 0.967, 0.0, Patch::EXP);   // c3: 130.81  to c5: 523.25  to c8: 4186.01     OU     c6: 1046.5  to c9: 8372    
 	  //multC = getIntParameter("SemiTone", 1, 12); //, 0.967, 0.0, Patch::LIN);
 	  //amp = getFloatParameter("amplitude", 0.0, 1.0, 0.2, 0.967, 0.0, Patch::LIN);

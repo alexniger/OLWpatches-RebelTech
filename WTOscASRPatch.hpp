@@ -1,10 +1,5 @@
 #include "Patch.h"
-//#include "SineOscillator.h"
-//#include <ctime>
-//#include <iostream>
 using namespace std;
-
-//#include <math.h>
 
 #include "WaveTableOsc.h"
 #include "ADSR.h"
@@ -22,11 +17,11 @@ private:
   FloatParameter freq;
   
 public:
-  WTOscARPatch() {																		//constructor
+  WTOscARPatch() {																		
 	  osc1 = new WaveTableOsc();
 	  wf = new WaveForm();	
 	  wf->setSawtoothOsc(osc1, baseFrequency);
-	  freq = getFloatParameter("Frequency", baseFrequency, 20000, 440, 0.97, 0.0, Patch::EXP);
+	  freq = getFloatParameter("Frequency", baseFrequency, 18000, 523.25, 0.97, 0.0, Patch::EXP);
   }  
   ADSR *env = new ADSR();
   
@@ -37,22 +32,12 @@ public:
     float Dtime = 0.14;
     float Rtime = getParameterValue(PARAMETER_D);
     float Slevel = 1.0;
-    //float ADRtime = Atime + Dtime + Rtime; //ou utilisation de getState.
     
 	env->setAttackRate(Atime * sampleRate);  // .1 second
 	env->setDecayRate(Dtime * sampleRate);
 	env->setReleaseRate(Rtime * sampleRate);
 	env->setSustainLevel(Slevel);
 	env->gate(isButtonPressed(PUSHBUTTON));
-	//if (isButtonPressed(PUSHBUTTON)==1) {
-		//do {
-			//env->gate(1);
-		//}
-		//while (env->getState() != 0);
-	//}
-	//else env->gate(0);
-    
-    //float freq = getParameterValue(PARAMETER_A)*getParameterValue(PARAMETER_A)*2000 + 20;
     osc1->setFrequency(freq/sampleRate);
 	
     debugMessage("freq/phase inc", freq, freq/sampleRate);

@@ -15,34 +15,34 @@ private:
   WaveTableOsc *osc1;
   WaveTableOsc *osc2;
   WaveTableOsc *osc3;
+  WaveTableOsc *osc4;
   WaveForm *wf;
   FloatParameter freqA;
+  FloatParameter freqC;
   FloatParameter multB;
-  FloatParameter multC;
+  FloatParameter multD
   
 public:
   WTThreeOscPatch() {																		
 	  osc1 = new WaveTableOsc();																
-	  osc2 = new WaveTableOsc();																
-	  osc3 = new WaveTableOsc();
-	  wf = new WaveForm();			
+	  osc2 = new WaveTableOsc();															
+	  osc3 = new WaveTableOsc();																
+	  osc4 = new WaveTableOsc();
+	  wf1 = new WaveForm();	
+	  wf2 = new WaveForm();			
 	  
-    //debugMessage("basefreq1", baseFrequency);
-	  wf->setSawtoothOsc(osc1, baseFrequency);
-	  wf->setSawtoothOsc(osc2, baseFrequency);
-	  wf->setSawtoothOsc(osc3, baseFrequency);
+	  wf1->setSawtoothOsc(osc1, baseFrequency);
+	  wf1->setSawtoothOsc(osc2, baseFrequency);
+	  wf2->setSawtoothOsc(osc3, baseFrequency);
+	  wf2->setSawtoothOsc(osc4, baseFrequency);
 	  
-    //debugMessage("basefreq2", baseFrequency);
 	  freqA = getFloatParameter("Frequency", baseFrequency, 18000, 523.25, 0.967, 0.0, Patch::EXP);   // c3: 130.81  to c5: 523.25  to c8: 4186.01     OU     c6: 1046.5  to c9: 8372    
-	  //multC = getIntParameter("SemiTone", 1, 12); //, 0.967, 0.0, Patch::LIN);
-	  //amp = getFloatParameter("amplitude", 0.0, 1.0, 0.2, 0.967, 0.0, Patch::LIN);
+	  
 	  
   }
   void processAudio(AudioBuffer &buffer) {
-    //float freq = getParameterValue(PARAMETER_A)*getParameterValue(PARAMETER_A)*2000 + 20;
-    //freqC=freqA*3/12;
+    //float freq = getParameterValue(PARAMETER_A)*2000 + 20;
     
-    //debugMessage("freqA/multC", freqA, (float) multC);
     float C = getParameterValue(PARAMETER_C);
     float multC = pow(2.0 , (C * 2.094 - 1.047));  			// multC = pow(2.0 , ((C - (pow((C-0.5)*7.0/25.0 , 2.0) - 0.07)) * 2.094 - 1.047));
     

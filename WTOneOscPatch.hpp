@@ -1,10 +1,8 @@
 
-//#include "SineOscillator.h"
-//#include <ctime>
-//#include <iostream>
+
 using namespace std;
 
-//#include <math.h>
+
 
 #include "WaveTableOsc.h"
 
@@ -22,11 +20,11 @@ private:
   WaveForm *wf;
   FloatParameter freq;
 public:
-  WTOneOscPatch() {																		//constructor
+  WTOneOscPatch() {																		
 	  osc1 = new WaveTableOsc();
 	  wf = new WaveForm();
 	  wf->setSawtoothOsc(osc1, baseFrequency);
-	  freq = getFloatParameter("Frequency", baseFrequency, 18000, 1600, 0.97, 0.0, Patch::EXP);
+	  freq = getFloatParameter("Frequency", baseFrequency, 18000, 523.25, 0.97, 0.0, Patch::EXP);
   }
   void processAudio(AudioBuffer &buffer) {
     //float freq = getParameterValue(PARAMETER_A)*(20000-baseFrequency) + baseFrequency;
@@ -35,10 +33,10 @@ public:
     osc1->setFrequency(freq/sampleRate);
     
     debugMessage ("freq/samplerate", freq, (float) sampleRate);
-    //float amp = getParameterValue(PARAMETER_B);
+    float amp = getParameterValue(PARAMETER_B);
     FloatArray left = buffer.getSamples(LEFT_CHANNEL);
     for(int n = 0; n<buffer.getSize(); n++){
-		left[n] = (osc1->getOutput())  ;
+		left[n] = (osc1->getOutput()*amp)  ;
 		osc1->updatePhase();        
     
   }

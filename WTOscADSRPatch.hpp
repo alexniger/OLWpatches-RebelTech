@@ -1,10 +1,6 @@
 #include "Patch.h"
-//#include "SineOscillator.h"
-//#include <ctime>
-//#include <iostream>
 using namespace std;
 
-//#include <math.h>
 
 #include "WaveTableOsc.h"
 #include "ADSR.h"
@@ -23,11 +19,11 @@ private:
   WaveForm *wf;
   FloatParameter freq;
 public:
-  WTOscADSRPatch() {																		//constructor
+  WTOscADSRPatch() {																		
 	  osc1 = new WaveTableOsc();
 	  wf = new WaveForm();	
 	  wf->setSawtoothOsc(osc1, baseFrequency);
-	  freq = getFloatParameter("Frequency", baseFrequency, 20000, 440, 0.97, 0.0, Patch::EXP);
+	  freq = getFloatParameter("Frequency", baseFrequency, 18000, 523.25, 0.97, 0.0, Patch::EXP);
   }
   ADSR *env = new ADSR();
   void processAudio(AudioBuffer &buffer) {
@@ -36,7 +32,7 @@ public:
     float Dtime = getParameterValue(PARAMETER_C);
     float Rtime = getParameterValue(PARAMETER_D);
     
-    env->setAttackRate(Atime * sampleRate);  // .1 second
+    env->setAttackRate(Atime * sampleRate);  
 	env->setDecayRate(Dtime * sampleRate);
 	env->setReleaseRate(Rtime * sampleRate);
 	env->setSustainLevel(0.09);
