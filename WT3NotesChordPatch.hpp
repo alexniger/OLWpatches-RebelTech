@@ -28,16 +28,21 @@ public:
 	wf->setOsc(osc2, baseFrequency);
 	wf->setOsc(osc3, baseFrequency);
 	  
-	freqA = getFloatParameter("Frequency", baseFrequency, c6, c4, 0.967, 0.0, Patch::EXP);   // c3: 130.81  to c5: 523.25  to c8: 4186.01     OU     c6: 1046.5  to c9: 8372    
+	registerParameter(PARAMETER_A, "Frequency");
+	//freqA = getFloatParameter("Frequency", baseFrequency, c6, c4, 0.967, 0.0, Patch::EXP);   // c3: 130.81  to c5: 523.25  to c8: 4186.01     OU     c6: 1046.5  to c9: 8372    
 	//multC = getIntParameter("SemiTone", 1, 12); //, 0.967, 0.0, Patch::LIN);
 	//amp = getFloatParameter("amplitude", 0.0, 1.0, 0.2, 0.967, 0.0, Patch::LIN);
 	
   }
   void processAudio(AudioBuffer &buffer) {
-    //float freq = getParameterValue(PARAMETER_A)*getParameterValue(PARAMETER_A)*2000 + 20;
+    //float freqA = getParameterValue(PARAMETER_A)*getParameterValue(PARAMETER_A)*2000 + 20;
     //freqC=freqA*3/12;
     
     //debugMessage("freqA/multC", freqA, (float) multC);
+    
+    float note = getParameterValue(PARAMETER_A)*49 + 25;
+    float freqA = exp2f((note-69)/12.0)*440.0;
+    
     float B = getParameterValue(PARAMETER_B);
     float multB = pow(2.0 , (B * 2.094 - 1.047));  			
     float C = getParameterValue(PARAMETER_C);

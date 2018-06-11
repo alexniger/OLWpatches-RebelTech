@@ -14,15 +14,16 @@ class WTOscARPatch : public Patch {
 private:
   WaveTableOsc *osc1;
   WaveForm *wf;
-  FloatParameter freq;
+  FloatParameter freqA;
   
 public:
   WTOscARPatch() {																		
 	  osc1 = new WaveTableOsc();
 	  wf = new WaveForm();	
 	  wf->setOsc(osc1, baseFrequency);
-	  freq = getFloatParameter("Frequency", baseFrequency, c6, c3, 0.77, 0.0, Patch::EXP);
+	//freqA = getFloatParameter("Frequency", baseFrequency, c6, c3, 0.77, 0.0, Patch::EXP);
 	  //TargRatio = getFloatParameter("TargetRation", 0.0001, 100, 0.0001, 0.97, 0.0, Patch::EXP);
+	  registerParameter(PARAMETER_A, "Frequency");
   }  
   ADSR *env = new ADSR();
   
@@ -35,6 +36,9 @@ public:
     float Slevel = 0.98;
     float TargRatio = exp(log(10)*(getParameterValue(PARAMETER_D) * 6 - 4));
     
+    float note = getParameterValue(PARAMETER_A)*49 + 25;
+    float freqA = exp2f((note-69)/12.0)*440.0;
+    
 	env->setAttackRate(Atime * sampleRate);  
 	env->setDecayRate(Dtime * sampleRate);
 	env->setReleaseRate(Rtime * sampleRate);
@@ -44,7 +48,7 @@ public:
 	env->setTargetRatioDR(TargRatio);
 	
     
-    osc1->setFrequency(freq/sampleRate);
+    osc1->setFrequency(freqA/sampleRate);
 	
     FloatArray left = buffer.getSamples(LEFT_CHANNEL);
     for(int n = 0; n<buffer.getSize(); n++){
