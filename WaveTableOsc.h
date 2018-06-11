@@ -23,7 +23,8 @@
 #ifndef Test_WaveTableOsc_h
 #define Test_WaveTableOsc_h
 
-#define baseFrequency (32.7)  /* starting frequency of first table */  // c1: 32.7
+
+//#define c1 (32.7) , c4 (261) 
 
 #define sampleRate (48000)
 
@@ -31,7 +32,7 @@
 
 #define overSamp (2)        /* oversampling factor (positive integer) */
 
-#define doLinearInterp 0
+#define doLinearInterp 1
 
 #define myFloat double      /* float or double, to set the resolution of the FFT, etc. (the resulting wavetables are always float) */
 
@@ -43,9 +44,17 @@ typedef struct {
 
 const int numWaveTableSlots = 32;										// 32 si jamais on veut des tiers d'octave (3*10=30)
 
-enum {
-	SAW_WAVE, TRI_WAVE, SQUARE_WAVE, EXT_WAVE
-} WAVESHAPE_TYPE;
+const float c10 = 16744.03, c9 = c10/2.0, c8 = c9/2.0, c7 = c8/2.0, c6 = c7/2.0, c5 = c6/2.0, c4 = c5/2.0, c3 = c4/2.0, c2 = c3/2.0, c1 = c2/2.0 ;
+
+namespace NWAVESHAPE_TYPE
+{
+	typedef enum {
+		SAW_WAVE, 
+		TRI_WAVE, 
+		SQUARE_WAVE, 
+		EXT_WAVE
+	} WAVESHAPE_TYPE;
+}
 
 class WaveTableOsc {
 protected:
@@ -72,17 +81,17 @@ public:
 class WaveForm {
 	
 	public:
-	//WaveForm(WAVESHAPE_TYPE type);
-	//WaveForm::~WaveForm();
+	//WaveForm(WAVESHAPE_TYPE TRI_WAVE); //type);
+	//~WaveForm();
 	
-	void setSawtoothOsc(WaveTableOsc *osc, float baseFreq);	
-	//void set1OctaveOsc(WaveTableOsc *osc, float baseFreq);			
+	
+	void setOsc(WaveTableOsc *osc, float baseFreq);	
 	
 	
 	private:
 	//WAVESHAPE_TYPE wavetype;
 	void fft(int N, myFloat *ar, myFloat *ai);
-	void defineSawtooth(int len, int numHarmonics, myFloat *ar, myFloat *ai);
+	void defineShape(int len, int numHarmonics, myFloat *ar, myFloat *ai);
 	float makeWaveTable(WaveTableOsc *osc, int len, myFloat *ar, myFloat *ai, myFloat scale, double topFreq);
 	}; 
 

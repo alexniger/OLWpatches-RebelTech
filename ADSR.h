@@ -95,8 +95,18 @@ inline float ADSR::process() {
 }
 
 inline void ADSR::gate(int gate) {
-	if (gate)
+	if (gate) { 
+		if (state == env_idle) {
 		state = env_attack;
+		}
+		
+	
+		if (state == env_attack && output >= 1)
+		state = env_decay;
+		
+	}
+	
+	
 	else if (state != env_idle)
         state = env_release;
 }

@@ -1,5 +1,3 @@
-#include "Patch.h"
-using namespace std;
 
 
 #include "WaveTableOsc.h"
@@ -8,7 +6,7 @@ using namespace std;
 
 
 // oscillator
-//#define baseFrequency (20)  /* starting frequency of first table */
+#define baseFrequency (c1)  /* starting frequency of first table */  // c1 = 32.7 Hz
 
 
 class WTOscARPatch : public Patch {
@@ -22,8 +20,8 @@ public:
   WTOscARPatch() {																		
 	  osc1 = new WaveTableOsc();
 	  wf = new WaveForm();	
-	  wf->setSawtoothOsc(osc1, baseFrequency);
-	  freq = getFloatParameter("Frequency", baseFrequency, 18000, 523.25, 0.97, 0.0, Patch::EXP);
+	  wf->setOsc(osc1, baseFrequency);
+	  freq = getFloatParameter("Frequency", baseFrequency, c6, c3, 0.77, 0.0, Patch::EXP);
 	  //TargRatio = getFloatParameter("TargetRation", 0.0001, 100, 0.0001, 0.97, 0.0, Patch::EXP);
   }  
   ADSR *env = new ADSR();
@@ -31,10 +29,10 @@ public:
   void processAudio(AudioBuffer &buffer) {
 	
 	//float freq = getParameterValue(PARAMETER_A)*2000 + 20;
-    float Atime = getParameterValue(PARAMETER_B);
-    float Dtime = 0.14;
+    float Atime = getParameterValue(PARAMETER_B)*2;
+    float Dtime = 0.1;
     float Rtime = getParameterValue(PARAMETER_C)*2;
-    float Slevel = 1.0;
+    float Slevel = 0.98;
     float TargRatio = exp(log(10)*(getParameterValue(PARAMETER_D) * 6 - 4));
     
 	env->setAttackRate(Atime * sampleRate);  
@@ -50,7 +48,7 @@ public:
 	
     FloatArray left = buffer.getSamples(LEFT_CHANNEL);
     for(int n = 0; n<buffer.getSize(); n++){
-		left[n] = (osc1->getOutput() ) * env->process() * 0.5 ;  	    // process(osc.getNextSample())*env->process();
+		left[n] = (osc1->getOutput() ) * env->process() * 0.5 ;  	
 		osc1->updatePhase();        
     
   }
