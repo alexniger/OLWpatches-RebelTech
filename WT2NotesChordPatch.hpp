@@ -2,6 +2,7 @@
 
 
 #include "WaveTableOsc.h"
+#include "WaveForm.h"
 
 
 // oscillator

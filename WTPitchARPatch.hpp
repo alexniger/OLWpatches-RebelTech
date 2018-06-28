@@ -3,6 +3,7 @@
 
 
 #include "WaveTableOsc.h"
+#include "WaveForm.h"
 #include "ADSR.h"
 
 
