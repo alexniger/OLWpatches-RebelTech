@@ -16,8 +16,9 @@
 //  You may modify and use this source code to create binary code for your own purposes, free or commercial.
 //
 
-#include "WaveTableOsc.h"
 
+#include "WaveTableOsc.h"
+#include "WaveForm.h"
 
 WaveTableOsc::WaveTableOsc(void) {										// initialisation
     phasor = 0.0;
@@ -50,7 +51,7 @@ WaveTableOsc::~WaveTableOsc(void) {
 //
 // returns 0 upon success, or the number of wavetables if no more room is available
 //
-int WaveTableOsc::addWaveTable(int len, float *waveTableIn, double topFreq) {
+int WaveTableOsc::addWaveTable(int len, float *waveTableIn, float topFreq) {   				//double topFreq
     if (this->numWaveTables < numWaveTableSlots) {
         float *waveTable = this->waveTables[this->numWaveTables].waveTable = new float[len];
         this->waveTables[this->numWaveTables].waveTableLen = len;
@@ -90,7 +91,7 @@ float WaveTableOsc::getOutput() {
     double fracPart = temp - intPart;
     float samp0 = waveTable->waveTable[intPart];
     if (++intPart >= waveTable->waveTableLen)
-        intPart = 0;
+        intPart = waveTable->waveTableLen-1;
     float samp1 = waveTable->waveTable[intPart];
     
     return samp0 + (samp1 - samp0) * fracPart;

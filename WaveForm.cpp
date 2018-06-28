@@ -15,10 +15,8 @@
 //  You may copy and distribute verbatim copies of this document.
 //  You may modify and use this source code to create binary code for your own purposes, free or commercial.
 //
-
 #include "WaveTableOsc.h"
-
-#include "Patch.h"
+#include "WaveForm.h"
 
 
 
@@ -33,9 +31,9 @@
 //}
 
 // setSawtoothOsc
-//
+
 // make set of wavetables for sawtooth oscillator
-//
+
 void WaveForm::setOsc(WaveTableOsc *osc, float baseFreq) {    
     // calc number of harmonics where the highest harmonic baseFreq and lowest alias an octave higher would meet
     int maxHarms = sampleRate / (3.0 * baseFreq) + 0.5;					// + 0.5 pour round

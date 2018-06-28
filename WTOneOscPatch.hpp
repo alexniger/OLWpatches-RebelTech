@@ -2,8 +2,8 @@
 
 
 
-
 #include "WaveTableOsc.h"
+#include "WaveForm.h"
 
 
 // oscillator
@@ -40,8 +40,8 @@ public:
 		left[n] = (osc1->getOutput()*amp)  ;
 		osc1->updatePhase();        
     
-  }
-  }
+	}
+	}
 };
 
 

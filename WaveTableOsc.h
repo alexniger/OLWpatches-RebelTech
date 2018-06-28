@@ -16,7 +16,15 @@
 //  You may modify and use this source code to create binary code for your own purposes, free or commercial.
 //
 
+
+
+#include "message.h"
 #include "Patch.h"
+#include "ExtFIR.h"
+#include "FirFilter.h"
+
+
+
 
 #define double float			// float needed with Owl processor
 
@@ -34,7 +42,7 @@
 
 #define doLinearInterp 1
 
-#define myFloat double      /* float or double, to set the resolution of the FFT, etc. (the resulting wavetables are always float) */
+#define myFloat float      /* float or double, to set the resolution of the FFT, etc. (the resulting wavetables are always float) */
 
 typedef struct {
     double topFreq;
@@ -46,15 +54,7 @@ const int numWaveTableSlots = 32;										// 32 si jamais on veut des tiers d'o
 
 const float c10 = 16744.03, c9 = c10/2.0, c8 = c9/2.0, c7 = c8/2.0, c6 = c7/2.0, c5 = c6/2.0, c4 = c5/2.0, c3 = c4/2.0, c2 = c3/2.0, c1 = c2/2.0 ;
 
-namespace NWAVESHAPE_TYPE
-{
-	typedef enum {
-		SAW_WAVE, 
-		TRI_WAVE, 
-		SQUARE_WAVE, 
-		EXT_WAVE
-	} WAVESHAPE_TYPE;
-}
+
 
 class WaveTableOsc {
 protected:
@@ -63,6 +63,7 @@ protected:
     double phaseOfs;    // phase offset for PWM
     
     // list of wavetables
+public:
     int numWaveTables;
     waveTable waveTables[numWaveTableSlots];
     
@@ -74,36 +75,23 @@ public:
     void updatePhase(void);
     float getOutput(void);
     float getOutputMinusOffset(void);
-    int addWaveTable(int len, float *waveTableIn, double topFreq);
+    int addWaveTable(int len, float *waveTableIn, float topFreq);
 };
 
-
-class WaveForm {
-	
-	public:
-	//WaveForm(WAVESHAPE_TYPE TRI_WAVE); //type);
-	//~WaveForm();
-	
-	
-	void setOsc(WaveTableOsc *osc, float baseFreq);	
-	
-	
-	private:
-	//WAVESHAPE_TYPE wavetype;
-	void fft(int N, myFloat *ar, myFloat *ai);
-	void defineShape(int len, int numHarmonics, myFloat *ar, myFloat *ai);
-	float makeWaveTable(WaveTableOsc *osc, int len, myFloat *ar, myFloat *ai, myFloat scale, double topFreq);
-	}; 
 
 // note: if you don't keep this in the range of 0-1, you'll need to make changes elsewhere
 inline void WaveTableOsc::setFrequency(double inc) {
     phaseInc = inc;
 }
 
+
+
 // note: if you don't keep this in the range of 0-1, you'll need to make changes elsewhere
 inline void WaveTableOsc::setPhaseOffset(double offset) {
     phaseOfs = offset;
 }
+
+
 
 inline void WaveTableOsc::updatePhase() {
     phasor += phaseInc;
@@ -111,5 +99,7 @@ inline void WaveTableOsc::updatePhase() {
     if (phasor >= 1.0)
         phasor -= 1.0;													// on conserve le décalage
 }
+
+
 
 #endif
