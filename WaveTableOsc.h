@@ -20,8 +20,6 @@
 
 #include "message.h"
 #include "Patch.h"
-#include "ExtFIR.h"
-#include "FirFilter.h"
 
 
 
