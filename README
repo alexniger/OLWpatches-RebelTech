@@ -2,6 +2,8 @@ wavetable/ADSR patches dedicated to RebelTech Owl module
 These wavetable patches use frequency range wavetables to go from a complex harmonic rich signal in LF to a simple sine wave in HF. So there won't be any aliasing in HF and no distinctive sound changes between wavetables.
 inspired from earlevel nigel Redmon 's code: http://www.earlevel.com/main/category/digital-audio/oscillators/wavetable-oscillators/
 
+extwaves folder contain a program that generates a 256 float array from .wav files .
+
 RebelTech.org : https://www.rebeltech.org/patch-library/patch/WT_Single_Osc
 
 patches:
@@ -17,14 +19,33 @@ patches:
 	[not ready]	-WTOscASRPatch.hpp
 [available]		-WTOscARPatch.hpp
 [available]		-WTPitchARPatch.hpp
+	[not ready]	-WTExtWavePatch.hpp
 
 headers:
 -ADSR.h
--WaveTable.h
+-WaveTableOsc.h
+-WaveForm.h
+-WaveFormExt.h
+-ExtFIR.h
+-Biquad.h
 
 additional function files:
 -ADSR.cpp
--WaveTable.cpp
+-WaveTableOsc.cpp
 -WaveForm.cpp
+-WaveFormExt.cpp
+-ExtFIR.cpp
+-Biquad.cpp
+
+ext waveform:
+-00.h
+-00BigEndianSine.h
+-01.h
+-01Sawtooth.h
+-02.h
+-03.h
+-SineLow.h
+-SineTZFM2.h
+-SquareLow.h
 
 alex niger
